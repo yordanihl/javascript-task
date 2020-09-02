@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Details Viewer</title>
+</head>
+<body>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script>
+		// this is simulating back-end checks
+		if(sessionStorage.getItem('userName')){
+			const mainHtml = axios.get('main.html');
+			const mainJs = axios.get('main.js');
+
+			axios.all([mainHtml, mainJs]).then(([resHtml, resJs])=>{
+				document.head.innerHTML += '<link rel="stylesheet" href="main.css">';
+				document.body.innerHTML = resHtml.data;
+				eval(resJs.data);
+			});
+
+		}else{
+			axios.get('404.html').then((res)=>{
+				document.body.innerHTML = res.data;
+			});
+		}
+	</script>
+</body>
+</html>
